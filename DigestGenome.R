@@ -25,25 +25,9 @@ RangesR = as(CutsCas9R, "data.frame")
 
 ### Run python script to obtain cuts
 
-command = "python"
-
-path = '"./FindStartBases.py"'
-
 cutCas9 = 17
-argsF = c(RangesF, cutCas9)
-argsR = c(RangesR, cutCas9)
-allArgsF = c(path, argsF)
-allArgsR = c(path, argsR)
-
-startsF = system2(command, args=allArgsF, stdout=TRUE)
-startsR = system2(command, args=allArgsR, stdout=TRUE)
-
-path = '"./CombineEnzymes.py"'
-
-startlist = c(startsF, startsR)
-allArgs = c(path, startlist)
-
-allStarts = system2(command, args=allArgs, stdout=TRUE)
+source_python('./createCutsR.py')
+allStarts = ConvineCuts(c(GetData(RangesF, cutCas9), GetData(RangesR, cutCas9)))
 
 newGenome = DNAStringSet()
 i <- 1
