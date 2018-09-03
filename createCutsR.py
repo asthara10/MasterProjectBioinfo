@@ -1,7 +1,8 @@
 def GetData(df, cut):
 	"""Retrieves the start and end data of each cut in the data frame.
 	The cut variable corresponds at the number of the nucleotide that will be left before the cut."""
-	data = [df.loc[:,'seqnames', df.loc[:'start'], df.loc[:'end'], df.loc[:'strand']]]
+	import pandas
+	data = [df.loc[:,'seqnames'], df.loc[:,'start'], df.loc[:,'end'], df.loc[:,'strand']]
 	i = 0
 	cuts = []
 	newcuts = []

@@ -3,6 +3,7 @@
 library(Biostrings)
 library(stringi)
 library(BSgenome.Sscrofa.UCSC.susScr3)
+library(reticulate)
 
 ### Retrieving genome
 
