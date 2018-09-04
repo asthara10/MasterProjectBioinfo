@@ -45,7 +45,7 @@ def ConvineCuts(LoL):
 	while i < len(LoL[0]):
 		new = []
 		for L in LoL:
-			new.append(L[i])
+			new = new + L[i]
 		new.append(0)
 		new.sort()
 		final.append(new)

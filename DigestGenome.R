@@ -16,8 +16,8 @@ Cas9R <- DNAString("GGTCATCCACGTACTGGAGGNGG")
 
 ### Obtain cuts
 
-CutsCas9F <- vmatchPattern(Cas9F, genome)
-CutsCas9R <- vmatchPattern(Cas9R, genome)
+CutsCas9F <- vmatchPattern(Cas9F, genome, fixed=FALSE)
+CutsCas9R <- vmatchPattern(Cas9R, genome, fixed=FALSE)
 
 ### Save as data frame
 
@@ -28,14 +28,14 @@ RangesR = as(CutsCas9R, "data.frame")
 
 cutCas9 = 17
 source_python('./createCutsR.py')
-allStarts = ConvineCuts(c(GetData(RangesF, cutCas9), GetData(RangesR, cutCas9)))
+allStarts = ConvineCuts(list(GetData(RangesF, cutCas9), GetData(RangesR, cutCas9)))
 
 newGenome = DNAStringSet()
 i <- 1
-for (sequence in genome){
+while (i <= length(genome)){
   j <- 1
-  for (nt in allStarts[i]){
-    append(newGenome, DNAString(genome[[i]][nt:allStarts[i][j+1]-1]))
+  for (nt in allStarts[[i]]){
+    append(newGenome, DNAString(genome[[i]][nt:allStarts[[i]][[j+1]]-1]))
     j <- j+1
   }
   i <- i+1

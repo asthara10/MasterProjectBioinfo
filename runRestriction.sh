@@ -5,7 +5,7 @@
 #SBATCH --time=2:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=julia.mir01@estudiant.upf.edu
-#SBATCH --mem=10000
+#SBATCH --mem=100000
 
 #SBATCH -e stderr1.err
 #SBATCH -o stdout1.out
