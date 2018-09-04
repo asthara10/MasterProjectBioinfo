@@ -8,6 +8,7 @@ library(reticulate)
 ### Retrieving genome
 
 genome <- BSgenome.Sscrofa.UCSC.susScr3
+print("genome retrieved")
 
 ### Saving enzymes
 
@@ -23,22 +24,34 @@ CutsCas9R <- vmatchPattern(Cas9R, genome, fixed=FALSE)
 
 RangesF = as(CutsCas9F, "data.frame")
 RangesR = as(CutsCas9R, "data.frame")
+print("patterns found")
 
 ### Run python script to obtain cuts
 
 cutCas9 = 17
 source_python('./createCutsR.py')
-allStarts = ConvineCuts(list(GetData(RangesF, cutCas9), GetData(RangesR, cutCas9)))
+print("python imported")
+listF <- GetData(RangesF, cutCas9)
+listR <- GetData(RangesR, cutCas9)
+print("GetData completed")
+allStarts = ConvineCuts(list(listF, listR))
+print("all python functions finished")
 
 newGenome = DNAStringSet()
 i <- 1
+print("starting while loop")
 while (i <= length(genome)){
   j <- 1
   for (nt in allStarts[[i]]){
-    append(newGenome, DNAString(genome[[i]][nt:allStarts[[i]][[j+1]]-1]))
+    if (j < length(allStarts[[i]])) {
+      newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt:(allStarts[[i]][[j+1]]-1)]))
+    } else if (j == length(allStarts[[i]])) {
+      newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt:length(genome[[i]])]))
+    }
     j <- j+1
   }
   i <- i+1
 }
+print("end of while loop")
 
 newGenome

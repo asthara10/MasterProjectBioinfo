@@ -2,7 +2,7 @@
 
 #SBATCH --partition=normal
 #SBATCH --nodes=1
-#SBATCH --time=2:00:00
+#SBATCH --time=5:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=julia.mir01@estudiant.upf.edu
 #SBATCH --mem=100000
