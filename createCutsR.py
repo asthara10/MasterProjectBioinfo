@@ -2,17 +2,16 @@ def GetData(df, cut):
 	"""Retrieves the start and end data of each cut in the data frame.
 	The cut variable corresponds at the number of the nucleotide that will be left before the cut."""
 	import pandas
-	i = 0
 	cuts = []
 	newcuts = []
 	first = True
 	
-	while i < len(df.loc[:,'seqnames']):
+	for i in range(len(df.loc[:,'seqnames'])):
 		if first:
 			chr = df.loc[i,'seqnames']
-			if df.loc[i,'strand'] == "+":
+			if (df.loc[i,'strand'] == "+") and (df.loc[i,'start'] != 0):
 				newcuts.append(df.loc[i,'start'] + cut-1)
-			else:
+			elif (df.loc[i,'strand'] == "-"):
 				newcuts.append(df.loc[i,'end'] - cut-1)
 			first = False
 		else:
@@ -26,11 +25,10 @@ def GetData(df, cut):
 				cuts.append(newcuts)
 				newcuts = []
 				chr = newchr
-				if df.loc[i,'strand'] == "+":
+				if (df.loc[i,'strand'] == "+") and (df.loc[i,'start'] != 0):
 					newcuts.append(df.loc[i,'start'] + cut-1)
-				else:
+				elif (df.loc[i,'strand'] == "-"):
 					newcuts.append(df.loc[i,'end'] - cut-1)
-		i+=1
 	cuts.append(newcuts)
 
 	return cuts
@@ -40,15 +38,13 @@ def ConvineCuts(LoL):
 	Argument LoL is the List of Lists of the multiple enzymes cuts.
 	Sorts from smaller to larger."""
 	final = []
-	i = 0
 	
-	while i < len(LoL[0]):
+	for i in range(len(LoL[0])):
 		new = []
 		for L in LoL:
 			new = new + L[i]
 		new.append(0)
 		new.sort()
 		final.append(new)
-		i+=1
 
 	return final
