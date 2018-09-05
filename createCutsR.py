@@ -30,8 +30,8 @@ def GetData(df, cut):
 					newcuts.append(df.loc[i,'start'] + cut-1)
 				else:
 					newcuts.append(df.loc[i,'end'] - cut-1)
-		cuts.append(newcuts)
 		i+=1
+	cuts.append(newcuts)
 
 	return cuts
 	

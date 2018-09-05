@@ -25,6 +25,8 @@ CutsCas9R <- vmatchPattern(Cas9R, genome, fixed=FALSE)
 RangesF = as(CutsCas9F, "data.frame")
 RangesR = as(CutsCas9R, "data.frame")
 print("patterns found")
+print(nrow(RangesF))
+print(nrow(RangesR))
 
 ### Run python script to obtain cuts
 
@@ -32,8 +34,9 @@ cutCas9 = 17
 source_python('./createCutsR.py')
 print("python imported")
 listF <- GetData(RangesF, cutCas9)
+print("GetDataF completed")
 listR <- GetData(RangesR, cutCas9)
-print("GetData completed")
+print("GetDataR completed")
 allStarts = ConvineCuts(list(listF, listR))
 print("all python functions finished")
 
@@ -44,9 +47,9 @@ while (i <= length(genome)){
   j <- 1
   for (nt in allStarts[[i]]){
     if (j < length(allStarts[[i]])) {
-      newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt:(allStarts[[i]][[j+1]]-1)]))
+      newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt+1:(allStarts[[i]][[j+1]]-nt)]))
     } else if (j == length(allStarts[[i]])) {
-      newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt:length(genome[[i]])]))
+      newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt+1:(length(genome[[i]])-nt)]))
     }
     j <- j+1
   }
