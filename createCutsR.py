@@ -11,7 +11,7 @@ def GetData(df, cut):
 			chr = df.loc[i,'seqnames']
 			if (df.loc[i,'strand'] == "+") and (df.loc[i,'start'] != 0):
 				newcuts.append(df.loc[i,'start'] + cut-1)
-			elif (df.loc[i,'strand'] == "-"):
+			elif (df.loc[i,'strand'] == "-") and (df.loc[i,'start'] != 0):
 				newcuts.append(df.loc[i,'end'] - cut-1)
 			first = False
 		else:
@@ -27,7 +27,7 @@ def GetData(df, cut):
 				chr = newchr
 				if (df.loc[i,'strand'] == "+") and (df.loc[i,'start'] != 0):
 					newcuts.append(df.loc[i,'start'] + cut-1)
-				elif (df.loc[i,'strand'] == "-"):
+				elif (df.loc[i,'strand'] == "-") and (df.loc[i,'start'] != 0):
 					newcuts.append(df.loc[i,'end'] - cut-1)
 	cuts.append(newcuts)
 
@@ -45,6 +45,8 @@ def ConvineCuts(LoL):
 			new = new + L[i]
 		new.append(0)
 		new.sort()
+		new = tuple(new)
+		new = list(new)
 		final.append(new)
 
 	return final

@@ -92,6 +92,15 @@ for (chr in names(genome)) {
   }
 }
 
+RangesFA = RangesFA[order(RangesFA$seqnames),]
+RangesFC = RangesFC[order(RangesFC$seqnames),]
+RangesFT = RangesFT[order(RangesFT$seqnames),]
+RangesFG = RangesFG[order(RangesFG$seqnames),]
+RangesRA = RangesRA[order(RangesRA$seqnames),]
+RangesRC = RangesRC[order(RangesRC$seqnames),]
+RangesRT = RangesRT[order(RangesRT$seqnames),]
+RangesRG = RangesRG[order(RangesRG$seqnames),]
+
 ### Run python script to obtain cuts
 
 cutCas9 = 17
@@ -112,14 +121,17 @@ print("all python functions finished")
 
 newGenome = DNAStringSet()
 i <- 1
+n <- 1
 print("starting while loop")
 while (i <= length(allStarts)){
   j <- 1
   for (nt in allStarts[[i]]){
     if (j < length(allStarts[[i]])) {
       newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt+1:(allStarts[[i]][[j+1]]-nt)]))
-    } else if (j == length(allStarts[[i]])) {
+	  n <- n+1
+	} else if (j == length(allStarts[[i]])) {
       newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt+1:(length(genome[[i]])-nt)]))
+	  n <- n+1
     }
     j <- j+1
   }
@@ -127,4 +139,45 @@ while (i <= length(allStarts)){
 }
 print("end of while loop")
 
-newGenome
+length(newGenome[[1]])
+
+### Digest with restriction enzymes
+
+SbfI <- DNAString("CCTGCAGG")
+ApaLI <- DNAString("GTGCAC")
+CutsSbf <- vmatchPattern(SbfI, newGenome)
+CutsApa <- vmatchPattern(ApaLI, newGenome)
+RangesSbf = as(CutsSbf, "data.frame")
+RangesApa = as(CutsApa, "data.frame")
+
+RangesSbf$strans=rep(c('+'), each=length(RangesSbf[[1]]))
+RangesApa$strans=rep(c('+'), each=length(RangesApa[[1]]))
+colnames(RangesSbf) <- c("seqnames", "group", "start", "end", "width", "strand")
+colnames(RangesApa) <- c("seqnames", "group", "start", "end", "width", "strand")
+RangesSbf = RangesSbf[order(RangesSbf$seqnames),]
+RangesApa = RangesApa[order(RangesApa$seqnames),]
+
+cutSbf <- 6
+cutApa <- 1
+listSbf <- GetData(RangesSbf, cutCas9)
+listApa <- GetData(RangesApa, cutCas9)
+allStarts2 = ConvineCuts(list(listSbf, listApa))
+
+### Get final target fragments
+
+target = DNAStringSet()
+i <- 1
+while (i <= length(allStarts)){
+	last <- allStarts[[i]][[length(allStarts[[i]])]]
+	if (length(allStarts[[i]]) > 1) {
+		target <- append(target, DNAStringSet(genome[[i]][1:(allStarts[[i]][[2]])]))
+		target <- append(target, DNAStringSet(genome[[i]][last+1:(length(genome[[i]])-last)]))
+	} else {
+		target <- append(target, DNAStringSet(genome[[i]][1:(length(genome[[i]]))]))
+	}
+  i <- i+1
+}
+
+length(target[[1]])
+writeDNAStringSet(target, "./DigestedFragments.fasta")
+

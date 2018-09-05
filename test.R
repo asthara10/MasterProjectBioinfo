@@ -62,6 +62,18 @@ RangesSbf$strand=c('+', '+', '+', '+')
 RangesApa$strand=c('+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+')
 colnames(RangesSbf) <- c("seqnames", "group", "start", "end", "something", "strand")
 colnames(RangesApa) <- c("seqnames", "group", "start", "end", "something", "strand")
-UUU <- GetData(RangesSbf, cutCas9)
-TTT <- GetData(RangesApa, cutCas9)
-allStarts = ConvineCuts(list(UUU, TTT))
+listSbf <- GetData(RangesSbf, cutCas9)
+listApà <- GetData(RangesApa, cutCas9)
+allStarts2 = ConvineCuts(list(listSbf, listApa))
+
+### Get final target fragments
+
+target = DNAStringSet()
+i <- 1
+while (i <= length(allStarts)){
+	first <- allStarts[[i]][[1]]
+	last <- allStarts[[i]][[length(allStarts[[i]])]]
+	target <- append(target, DNAStringSet(genome[[i]][first+1:(allStarts[[i]][[2]]-first)]))
+    target <- append(target, DNAStringSet(genome[[i]][last+1:(length(genome[[i]])-last)]))
+  i <- i+1
+}
