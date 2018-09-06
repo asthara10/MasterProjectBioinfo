@@ -38,15 +38,19 @@ def ConvineCuts(LoL):
 	Argument LoL is the List of Lists of the multiple enzymes cuts.
 	Sorts from smaller to larger."""
 	final = []
+	longest = max(map(lambda x: len(x), LoL))
 	
-	for i in range(len(LoL[0])):
+	for i in range(longest):
 		new = []
 		for L in LoL:
-			new = new + L[i]
+			try:
+				new = new + L[i]
+			except:
+				continue
 		new.append(0)
-		new.sort()
-		new = tuple(new)
+		new = set(new)
 		new = list(new)
+		new.sort()
 		final.append(new)
 
 	return final

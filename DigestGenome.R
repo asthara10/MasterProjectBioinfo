@@ -7,7 +7,13 @@ library(reticulate)
 
 ### Retrieving genome
 
-genome <- BSgenome.Sscrofa.UCSC.susScr3
+Genome <- BSgenome.Sscrofa.UCSC.susScr3
+genome <- DNAStringSet()
+n <- 1
+while (n <= length(names(Genome))) {
+  genome <- append(genome, DNAStringSet(Genome[[n]]))
+  n <- n+1
+}
 print("genome retrieved")
 
 ### Saving enzymes
@@ -43,55 +49,71 @@ RangesRC = as(CutsCas9RC, "data.frame")
 RangesRT = as(CutsCas9RT, "data.frame")
 RangesRG = as(CutsCas9RG, "data.frame")
 print("patterns found")
-for (chr in names(genome)) {
+
+RangesFA$strand=rep(c('+'), each=length(RangesFA[[1]]))
+RangesFC$strand=rep(c('+'), each=length(RangesFC[[1]]))
+RangesFT$strand=rep(c('+'), each=length(RangesFT[[1]]))
+RangesFG$strand=rep(c('+'), each=length(RangesFG[[1]]))
+RangesRA$strand=rep(c('+'), each=length(RangesRA[[1]]))
+RangesRC$strand=rep(c('+'), each=length(RangesRC[[1]]))
+RangesRT$strand=rep(c('+'), each=length(RangesRT[[1]]))
+RangesRG$strand=rep(c('+'), each=length(RangesRG[[1]]))
+colnames(RangesFA) <- c("seqnames", "group", "start", "end", "width", "strand")
+colnames(RangesFC) <- c("seqnames", "group", "start", "end", "width", "strand")
+colnames(RangesFT) <- c("seqnames", "group", "start", "end", "width", "strand")
+colnames(RangesFG) <- c("seqnames", "group", "start", "end", "width", "strand")
+colnames(RangesRA) <- c("seqnames", "group", "start", "end", "width", "strand")
+colnames(RangesRC) <- c("seqnames", "group", "start", "end", "width", "strand")
+colnames(RangesRT) <- c("seqnames", "group", "start", "end", "width", "strand")
+colnames(RangesRG) <- c("seqnames", "group", "start", "end", "width", "strand")
+for (chr in c(1:length(genome))) {
   if (! chr %in% RangesFA$seqnames) {
-    add <- data.frame("seqnames"=chr, "start"=0, "end"=0, "width"=0, "strand"="+")
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
     RangesFA <- rbind(RangesFA, add)
   }
 }
-for (chr in names(genome)) {
+for (chr in c(1:length(genome))) {
   if (! chr %in% RangesFC$seqnames) {
-    add <- data.frame("seqnames"=chr, "start"=0, "end"=0, "width"=0, "strand"="+")
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
     RangesFC <- rbind(RangesFC, add)
   }
 }
-for (chr in names(genome)) {
+for (chr in c(1:length(genome))) {
   if (! chr %in% RangesFT$seqnames) {
-    add <- data.frame("seqnames"=chr, "start"=0, "end"=0, "width"=0, "strand"="+")
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
     RangesFT <- rbind(RangesFT, add)
   }
 }
-for (chr in names(genome)) {
+for (chr in c(1:length(genome))) {
   if (! chr %in% RangesFG$seqnames) {
-    add <- data.frame("seqnames"=chr, "start"=0, "end"=0, "width"=0, "strand"="+")
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
     RangesFG <- rbind(RangesFG, add)
   }
 }
-for (chr in names(genome)) {
+for (chr in c(1:length(genome))) {
   if (! chr %in% RangesRA$seqnames) {
-    add <- data.frame("seqnames"=chr, "start"=0, "end"=0, "width"=0, "strand"="+")
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
     RangesRA <- rbind(RangesRA, add)
   }
 }
-for (chr in names(genome)) {
+for (chr in c(1:length(genome))) {
   if (! chr %in% RangesRC$seqnames) {
-    add <- data.frame("seqnames"=chr, "start"=0, "end"=0, "width"=0, "strand"="+")
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
     RangesRC <- rbind(RangesRC, add)
   }
 }
-for (chr in names(genome)) {
+for (chr in c(1:length(genome))) {
   if (! chr %in% RangesRT$seqnames) {
-    add <- data.frame("seqnames"=chr, "start"=0, "end"=0, "width"=0, "strand"="+")
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
     RangesRT <- rbind(RangesRT, add)
   }
 }
-for (chr in names(genome)) {
+for (chr in c(1:length(genome))) {
   if (! chr %in% RangesRG$seqnames) {
-    add <- data.frame("seqnames"=chr, "start"=0, "end"=0, "width"=0, "strand"="+")
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
     RangesRG <- rbind(RangesRG, add)
   }
 }
-
 RangesFA = RangesFA[order(RangesFA$seqnames),]
 RangesFC = RangesFC[order(RangesFC$seqnames),]
 RangesFT = RangesFT[order(RangesFT$seqnames),]
@@ -121,25 +143,20 @@ print("all python functions finished")
 
 newGenome = DNAStringSet()
 i <- 1
-n <- 1
 print("starting while loop")
 while (i <= length(allStarts)){
   j <- 1
   for (nt in allStarts[[i]]){
     if (j < length(allStarts[[i]])) {
-      newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt+1:(allStarts[[i]][[j+1]]-nt)]))
-	  n <- n+1
-	} else if (j == length(allStarts[[i]])) {
-      newGenome <- append(newGenome, DNAStringSet(genome[[i]][nt+1:(length(genome[[i]])-nt)]))
-	  n <- n+1
+      newGenome <- append(newGenome, DNAStringSet(genome[[i]][(nt+1):(allStarts[[i]][[j+1]]-nt)]))
+	  } else if (j == length(allStarts[[i]])) {
+      newGenome <- append(newGenome, DNAStringSet(genome[[i]][(nt+1):(length(genome[[i]])-nt)]))
     }
     j <- j+1
   }
   i <- i+1
 }
 print("end of while loop")
-
-length(newGenome[[1]])
 
 ### Digest with restriction enzymes
 
@@ -150,10 +167,22 @@ CutsApa <- vmatchPattern(ApaLI, newGenome)
 RangesSbf = as(CutsSbf, "data.frame")
 RangesApa = as(CutsApa, "data.frame")
 
-RangesSbf$strans=rep(c('+'), each=length(RangesSbf[[1]]))
-RangesApa$strans=rep(c('+'), each=length(RangesApa[[1]]))
+RangesSbf$strand=rep(c('+'), each=length(RangesSbf[[1]]))
+RangesApa$strand=rep(c('+'), each=length(RangesApa[[1]]))
 colnames(RangesSbf) <- c("seqnames", "group", "start", "end", "width", "strand")
 colnames(RangesApa) <- c("seqnames", "group", "start", "end", "width", "strand")
+for (chr in c(1:length(newGenome))) {
+  if (! chr %in% RangesSbf$seqnames) {
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
+    RangesSbf <- rbind(RangesSbf, add)
+  }
+}
+for (chr in c(1:length(newGenome))) {
+  if (! chr %in% RangesApa$seqnames) {
+    add <- data.frame("seqnames"=chr, "group"=0, "start"=0, "end"=0, "width"=0, "strand"="+")
+    RangesApa <- rbind(RangesApa, add)
+  }
+}
 RangesSbf = RangesSbf[order(RangesSbf$seqnames),]
 RangesApa = RangesApa[order(RangesApa$seqnames),]
 
@@ -170,14 +199,22 @@ i <- 1
 while (i <= length(allStarts)){
 	last <- allStarts[[i]][[length(allStarts[[i]])]]
 	if (length(allStarts[[i]]) > 1) {
-		target <- append(target, DNAStringSet(genome[[i]][1:(allStarts[[i]][[2]])]))
-		target <- append(target, DNAStringSet(genome[[i]][last+1:(length(genome[[i]])-last)]))
+	  seq <- genome[[i]][1:(allStarts[[i]][[2]])]
+	  if (6000 < length(seq) &&  length(seq) < 50000) {
+		  target <- append(target, DNAStringSet(seq))
+	  }
+	  seq <- genome[[i]][(last+1):(length(genome[[i]])-last)]
+	  if (6000 < length(seq) &&  length(seq) < 50000) {
+		  target <- append(target, DNAStringSet(seq))
+	  }
 	} else {
-		target <- append(target, DNAStringSet(genome[[i]][1:(length(genome[[i]]))]))
+	  seq <- genome[[i]][1:(length(genome[[i]]))]
+	  if (6000 < length(seq) &&  length(seq) < 50000) {
+		  target <- append(target, DNAStringSet(seq))
+	  }
 	}
   i <- i+1
 }
 
-length(target[[1]])
-writeDNAStringSet(target, "./DigestedFragments.fasta")
+writeXStringSet(target, "./DigestedFragments.fasta")
 
