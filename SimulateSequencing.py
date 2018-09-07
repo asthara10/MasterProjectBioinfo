@@ -14,13 +14,11 @@ def ParseFasta(file):
 				seq = ""
 		else:
 			seq = seq + line
-		top = "---" + seq[:5] + seq[-6:] + "---"
-		sys.stdout.write(top)
 	seqs.append(seq)
 		
 	return seqs
 	
-def addAdapters(fragments, adaptREshort, adaptRElong, adaptCas, ends5, ends3):
+def addAdapters(fragments, adaptREshort, adaptRElong, adaptCas9, ends5, ends3):
 	"""Adds the corresponding adapters to the ends of each fragment.
 	ends5 = SbfF, SbfR, ApaF, ApaR
 	ends3 = SbfF, SbfR, ApaF, ApaR"""
@@ -46,7 +44,6 @@ def addAdapters(fragments, adaptREshort, adaptRElong, adaptCas, ends5, ends3):
 		if (seq[-1:] == ends3[3]) and (seq[:2] != ends5[0]) and (seq[:2] != ends5[1]) and (seq[:5] != ends5[2]) and (seq[:5] != ends5[3]):
 			new = complement(reverse(seq)) + reverse(adaptCas9) + seq + reverse(adaptRElong)
 		if len(new) >= 1:
-			sys.stdout.write("yes")
 			constructs.append(new)
 		
 	return constructs
@@ -58,7 +55,7 @@ def Concatenate(fragments, n=10):
 	rolling = []
 	
 	for seq in fragments:
-		sign = random.randing(0, 1)
+		sign = random.randint(0, 1)
 		if sign:
 			rolling.append(seq*(n-random.randint(0, 2)))
 		else:
@@ -71,24 +68,33 @@ def addMutation(fragments, s=6, d=6, i=3):
 	For long reads we assume 15% overall base mutation, being probability of substition and deletion 6% and probability of insertion 3%"""
 	import random
 	nucls = ["A", "C", "T", "G"]
+	nuclsA = ["C", "T", "G"]
+	nuclsC = ["A", "T", "G"]
+	nuclsT = ["A", "C", "G"]
+	nuclsG = ["A", "C", "T"]
 	simulation = []
 	
 	for seq in fragments:
 		newseq = ""
 		for nt in seq:
-			which = random.randint(1, 15)
-			if which <= 6:
-				muts = random.randint(0, 100)
-				if muts <= s:
-					newseq = newseq + nucls[random.randing(0, 4)]
-			elif which <= 12:
-				mutd = random.randint(0, 100)
-				if mutd <= d:
-					continue
+			which = random.randint(1, 100)
+			if which <= s:
+				if nt == "A":
+					newseq = newseq + nuclsA[random.randint(0, 2)]
+				elif nt == "C":
+					newseq = newseq + nuclsC[random.randint(0, 2)]
+				elif nt == "T":
+					newseq = newseq + nuclsT[random.randint(0, 2)]
+				elif nt == "G":
+					newseq = newseq + nuclsG[random.randint(0, 2)]
+				else:
+					newseq = newseq + nt
+			elif which <= s+d:
+				continue
+			elif which <= s+d+i:
+				newseq = newseq + nt + nucls[random.randint(0, 3)]
 			else:
-				muti = random.randint(0, 100)
-				if muti <= i:
-					newseq = newseq + nt + nucls[random.randing(0, 4)]
+				newseq = newseq + nt
 		simulation.append(newseq)
 		
 	return simulation
@@ -99,7 +105,7 @@ def reverse(seq):
 	
 def complement(seq):
 	"""Returns complement of a sequence"""
-	dict = {"A":"T", "C": "G", "T":"A", "G":"C"}
+	dict = {"A":"T", "C": "G", "T":"A", "G":"C", "N":"N"}
 	seq_list = list(seq)
 	seq_list = [dict[base] for base in seq_list]
 	return ''.join(seq_list)
