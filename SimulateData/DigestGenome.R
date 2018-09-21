@@ -216,5 +216,5 @@ while (i <= length(allStarts)){
   i <- i+1
 }
 
-writeXStringSet(target, "./DigestedFragments.fasta")
+writeXStringSet(target, c(0:length(target)), "./DigestedFragments.fasta")
 
