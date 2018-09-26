@@ -1,0 +1,22 @@
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/LV-S4.sorted.bam.bai  LV-S4.sorted.bam.bai 
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/5116-Control-S10.sorted.bam.bai 5116-Control-S10.sorted.bam.bai
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/5116-Control-S7.sorted.bam.bai  5116-Control-S7.sorted.bam.bai 
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/NILV-S2.sorted.bam.bai NILV-S2.sorted.bam.bai
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/5116-Mutated-S9.sorted.bam.bai 5116-Mutated-S9.sorted.bam.bai
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/NILV-S3.sorted.bam.bai NILV-S3.sorted.bam.bai
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/5116-Reverted-S8.sorted.bam.bai 5116-Reverted-S8.sorted.bam.bai
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/NILV-S5.sorted.bam.bai NILV-S5.sorted.bam.bai
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/LV-S1.sorted.bam.bai LV-S1.sorted.bam.bai
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/NILV-S6.sorted.bam.bai NILV-S6.sorted.bam.bai
+
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/5116-Control-S10.sorted.bam 5116-Control-S10.sorted.bam
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/5116-Control-S7.sorted.bam  5116-Control-S7.sorted.bam 
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/NILV-S2.sorted.bam NILV-S2.sorted.bam
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/5116-Mutated-S9.sorted.bam   5116-Mutated-S9.sorted.bam  
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/NILV-S3.sorted.bam NILV-S3.sorted.bam
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/5116-Reverted-S8.sorted.bam  5116-Reverted-S8.sorted.bam 
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/NILV-S5.sorted.bam NILV-S5.sorted.bam
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/LV-S1.sorted.bam LV-S1.sorted.bam
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/NILV-S6.sorted.bam NILV-S6.sorted.bam
+scp jmir@marvin.s.upf.edu:/homes/users/jmir/Avencia/LV-S4.sorted.bam LV-S4.sorted.bam
+
