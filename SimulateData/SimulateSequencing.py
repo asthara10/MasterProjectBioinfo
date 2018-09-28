@@ -28,21 +28,29 @@ def addAdapters(fragments, adaptREshort, adaptRElong, adaptCas9, ends5, ends3):
 	for seq in fragments:
 		new = ""
 		if (seq[:2] == ends5[0]):
-			new = adaptRElong + seq + adaptCas9 + complement(reverse(seq))
+			#new = adaptRElong + seq + adaptCas9 + complement(reverse(seq))
+			new = seq + adaptCas9 + complement(reverse(seq))	## If simulating CCS
 		elif (seq[:2] == ends5[1]):
-			new = reverse(adaptRElong) + seq + reverse(adaptCas9) + complement(reverse(seq))
+			#new = reverse(adaptRElong) + seq + reverse(adaptCas9) + complement(reverse(seq))
+			new = seq + reverse(adaptCas9) + complement(reverse(seq))	## If simulating CCS
 		elif (seq[:5] == ends5[2]):
-			new = adaptREshort + seq + adaptCas9 + complement(reverse(seq))
+			#new = adaptREshort + seq + adaptCas9 + complement(reverse(seq))
+			new = seq + adaptCas9 + complement(reverse(seq))	## If simulating CCS
 		elif (seq[:5] == ends5[3]):
-			new = reverse(adaptREshort) + seq + reverse(adaptCas9) + complement(reverse(seq))
+			#new = reverse(adaptREshort) + seq + reverse(adaptCas9) + complement(reverse(seq))
+			new = seq + reverse(adaptCas9) + complement(reverse(seq))	## If simulating CCS
 		elif (seq[-6:] == ends3[0]):
-			new = complement(reverse(seq)) + adaptCas9 + seq + adaptREshort
+			#new = complement(reverse(seq)) + adaptCas9 + seq + adaptREshort
+			new = complement(reverse(seq)) + adaptCas9 + seq	## If simulating CCS
 		elif (seq[-6:] == ends3[1]):
-			new = complement(reverse(seq)) + reverse(adaptCas9) + seq + severse(adaptREshort)
+			#new = complement(reverse(seq)) + reverse(adaptCas9) + seq + severse(adaptREshort)
+			new = complement(reverse(seq)) + reverse(adaptCas9) + seq	## If simulating CCS
 		elif (seq[-1:] == ends3[2]):
-			new = complement(reverse(seq)) + adaptCas9 + seq + adaptRElong
+			#new = complement(reverse(seq)) + adaptCas9 + seq + adaptRElong
+			new = complement(reverse(seq)) + adaptCas9 + seq	## If simulating CCS
 		elif (seq[-1:] == ends3[3]):
-			new = complement(reverse(seq)) + reverse(adaptCas9) + seq + reverse(adaptRElong)
+			#new = complement(reverse(seq)) + reverse(adaptCas9) + seq + reverse(adaptRElong)
+			new = complement(reverse(seq)) + reverse(adaptCas9) + seq	## If simulating CCS
 		if len(new) >= 1:
 			constructs.append(new)
 		
@@ -132,5 +140,5 @@ if __name__ == "__main__":
 	
 	#saveFasta(addMutation(Concatenate(addAdapters(ParseFasta(args.filename), args.shortREadapter, args.longREadapter, args.cas9adapter, args.fiveprime, args.threeprime))), args.output)
 
-	saveFasta(addMutation(addAdapters(ParseFasta(args.filename), args.shortREadapter, args.longREadapter, args.cas9adapter, args.fiveprime, args.threeprime), s=0.6, d=0.6, i=0.3), args.output)
+	saveFasta(addMutation(addAdapters(ParseFasta(args.filename), args.shortREadapter, args.longREadapter, args.cas9adapter, args.fiveprime, args.threeprime), s=0.6, d=0.6, i=0.3), args.output)	## If simulating CCS
 
