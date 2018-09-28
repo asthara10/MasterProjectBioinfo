@@ -77,7 +77,7 @@ def addMutation(fragments, s=6, d=6, i=3):
 	for seq in fragments:
 		newseq = ""
 		for nt in seq:
-			which = random.randint(1, 100)
+			which = random.uniform(1, 100)
 			if which <= s:
 				if nt == "A":
 					newseq = newseq + nuclsA[random.randint(0, 2)]
@@ -130,4 +130,7 @@ if __name__ == "__main__":
 	parser.add_argument("-o", dest="output", help="output fasta file name", action="store")
 	args = parser.parse_args()
 	
-	saveFasta(addMutation(Concatenate(addAdapters(ParseFasta(args.filename), args.shortREadapter, args.longREadapter, args.cas9adapter, args.fiveprime, args.threeprime))), args.output)
+	#saveFasta(addMutation(Concatenate(addAdapters(ParseFasta(args.filename), args.shortREadapter, args.longREadapter, args.cas9adapter, args.fiveprime, args.threeprime))), args.output)
+
+	saveFasta(addMutation(addAdapters(ParseFasta(args.filename), args.shortREadapter, args.longREadapter, args.cas9adapter, args.fiveprime, args.threeprime), s=0.6, d=0.6, i=0.3), args.output)
+
