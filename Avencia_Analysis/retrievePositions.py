@@ -6,7 +6,6 @@ def findLTR(infiles, LTRfile):
 	LTR = open(LTRfile)
 	LTR.readline()
 	LTRseq = LTR.readline().upper()
-	print(LTRseq)
 	for infile in infiles:
 		fasta = open(infile)
 		for line in fasta:
@@ -58,6 +57,8 @@ def getPosition(infile, output, seqnames, samples):
 				if (line[0] in samples[sample]) and (line[2] != "*"):
 					outfile.write("%s\t%s\t%s\t%s\t%s\n" % (sample, line[0], line[2], line[3], line[7]))
 
+
+
 if __name__ == "__main__":
 	import argparse
 	
@@ -71,3 +72,5 @@ if __name__ == "__main__":
 	
 	#getPosition(args.sai, args.out, findLTR(args.fastas, args.ltr), getSample(args.txts))
 	writeNames(findLTR(args.fastas, args.ltr), args.out)
+
+
